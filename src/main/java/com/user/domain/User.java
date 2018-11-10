@@ -48,6 +48,14 @@ public class User implements Comparable<User> {
 
     @Override
     public int compareTo(User userToCompare) {
-    	return 0;
+        int compareLastName = lastName.compareTo(userToCompare.getLastName());
+        if (compareLastName != 0) {
+            return compareLastName;
+        }
+        int compareFirstName = firstName.compareTo(userToCompare.getFirstName());
+        if (compareFirstName != 0) {
+            return compareFirstName;
+        }
+        return id.compareTo(userToCompare.getId());
     }
 }
