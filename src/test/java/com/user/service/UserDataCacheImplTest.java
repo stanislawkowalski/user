@@ -19,7 +19,7 @@ public class UserDataCacheImplTest {
 
     @Before
     public void before() {
-        userDataCacheImpl = new UserDataCacheImpl();
+        userDataCacheImpl = new UserDataCacheImpl(UserComparator.class);
     }
 
     @Test

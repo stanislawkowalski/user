@@ -1,6 +1,6 @@
 package com.user.domain;
 
-public class User implements Comparable<User> {
+public class User {
 
     public User(Long id, String firstName, String lastName, String address) {
         this.id = id;
@@ -44,18 +44,5 @@ public class User implements Comparable<User> {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    @Override
-    public int compareTo(User userToCompare) {
-        int compareLastName = lastName.compareTo(userToCompare.getLastName());
-        if (compareLastName != 0) {
-            return compareLastName;
-        }
-        int compareFirstName = firstName.compareTo(userToCompare.getFirstName());
-        if (compareFirstName != 0) {
-            return compareFirstName;
-        }
-        return id.compareTo(userToCompare.getId());
     }
 }

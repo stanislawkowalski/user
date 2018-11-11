@@ -1,6 +1,7 @@
 package com.user.service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -14,9 +15,11 @@ public class UserDataCacheImpl implements UserDataCache {
 	private TreeSet<User> users;
     private HashMap<Long, User> idMap;
     private HashMap<String, TreeSet<User>> lastNameMap;
+    private Class<? extends Comparator<User>> comparator;
 
-    public UserDataCacheImpl() {
-        users = new TreeSet<>();
+    public UserDataCacheImpl(Class<? extends Comparator<User>> comparator) {
+    	this.comparator = comparator;
+        users = newEmptyUserSet();
         idMap = new HashMap<>();
         lastNameMap = new HashMap<>();
     }
@@ -54,6 +57,14 @@ public class UserDataCacheImpl implements UserDataCache {
     	return users.size();
     }
     
+    private TreeSet<User> newEmptyUserSet() {
+    	try {
+    		return new TreeSet<>(comparator.newInstance());
+    	} catch (Exception ex) {
+    		return new TreeSet<>();
+    	}
+    }
+    
     private void checkUserHasAllMandatoryFields(User user) {
         if (user == null || user.getId() == null ||
                 user.getFirstName() == null || user.getLastName() == null) {
@@ -81,7 +92,7 @@ public class UserDataCacheImpl implements UserDataCache {
 
     private TreeSet<User> getLastNameSet(String lastName) {
         TreeSet<User> usersSetByLastName = lastNameMap.get(getKeyFromLastName(lastName));
-        return usersSetByLastName == null ? new TreeSet<>() : usersSetByLastName;
+        return usersSetByLastName == null ? newEmptyUserSet() : usersSetByLastName;
     }
 
     private String getKeyFromLastName(String lastName) {
