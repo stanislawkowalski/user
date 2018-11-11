@@ -19,7 +19,7 @@ public class UserDataCacheImplTest {
 
     @Before
     public void before() {
-        userDataCacheImpl = new UserDataCacheImpl(UserComparator.class);
+        userDataCacheImpl = new UserDataCacheImpl(UserComparatorMock.class);
     }
 
     @Test
@@ -31,9 +31,9 @@ public class UserDataCacheImplTest {
     public void testAddUser_afterAddUsers() {
         addTestUsers();
         List<User> allCacheUsers = userDataCacheImpl.getAllUsers();
-        assertEquals(new Long(3), allCacheUsers.get(0).getId());
-        assertEquals(new Long(1), allCacheUsers.get(1).getId());
-        assertEquals(new Long(2), allCacheUsers.get(2).getId());
+        assertEquals(new Long(2), allCacheUsers.get(0).getId());
+        assertEquals(new Long(3), allCacheUsers.get(1).getId());
+        assertEquals(new Long(4), allCacheUsers.get(2).getId());
         assertEquals(3, userDataCacheImpl.size());
     }
 
@@ -48,9 +48,9 @@ public class UserDataCacheImplTest {
     @Test
     public void testAddUser_addUserWithDataExistingInCacheButDifferentId() {
         addTestUsers();
-        boolean isAdd = userDataCacheImpl.addUser(new User(4L, "Stanislaw", "Kowalski", "Poznan"));
+        boolean isAdd = userDataCacheImpl.addUser(new User(1L, "Stanislaw", "Kowalski", "Poznan"));
         assertTrue(isAdd);
-        assertTrue(userDataCacheImpl.getUser(4L).isPresent());
+        assertTrue(userDataCacheImpl.getUser(1L).isPresent());
         assertEquals(4, userDataCacheImpl.size());
     }
 
@@ -77,16 +77,16 @@ public class UserDataCacheImplTest {
     @Test
     public void testGetUserById_userNotExistInCache() {
         addTestUsers();
-        Optional<User> userById = userDataCacheImpl.getUser(4L);
+        Optional<User> userById = userDataCacheImpl.getUser(1L);
         assertFalse(userById.isPresent());
     }
 
     @Test
     public void testGetUserById_userExistInCache() {
         addTestUsers();
-        Optional<User> userById = userDataCacheImpl.getUser(1L);
+        Optional<User> userById = userDataCacheImpl.getUser(2L);
         assertTrue(userById.isPresent());
-        assertEquals(new Long(1), userById.get().getId());
+        assertEquals(new Long(2), userById.get().getId());
     }
 
     @Test
@@ -109,15 +109,15 @@ public class UserDataCacheImplTest {
     @Test
     public void testGetUsersByLastName_lastNamesInDifferentCasesAndBeginEndWhiteSigns() {
         addTestUsers();
-        userDataCacheImpl.addUser(new User(4L, "Marcin", "NOWAK", "Olsztyn"));
+        userDataCacheImpl.addUser(new User(1L, "Marcin", "NOWAK", "Olsztyn"));
         List<User> usersByLastName = userDataCacheImpl.getUsers(" nowak	");
         assertEquals(2, usersByLastName.size());
-        assertEquals(new Long(4), usersByLastName.get(0).getId());
+        assertEquals(new Long(1), usersByLastName.get(0).getId());
         assertEquals(new Long(2), usersByLastName.get(1).getId());
     }
 
     private void addTestUsers() {
-        userDataCacheImpl.addUser(new User(1L, "Stanislaw", "Kowalski", "Poznan"));
+        userDataCacheImpl.addUser(new User(4L, "Stanislaw", "Kowalski", "Poznan"));
         userDataCacheImpl.addUser(new User(2L, "Grzegorz", "Nowak", "Szczecin"));
         userDataCacheImpl.addUser(new User(3L, "Mariusz", "Kowalski", "Gdansk"));
     }
