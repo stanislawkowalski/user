@@ -24,7 +24,7 @@ public class UserDataCacheImplTest {
 
     @Test
     public void testInit_beforeAddUsers() {
-    	assertEquals(0, userDataCacheImpl.getAllUsers().size());
+    	assertEquals(0, userDataCacheImpl.size());
     }
 
     @Test
@@ -34,7 +34,7 @@ public class UserDataCacheImplTest {
         assertEquals(new Long(3), allCacheUsers.get(0).getId());
         assertEquals(new Long(1), allCacheUsers.get(1).getId());
         assertEquals(new Long(2), allCacheUsers.get(2).getId());
-        assertEquals(3, userDataCacheImpl.getAllUsers().size());
+        assertEquals(3, userDataCacheImpl.size());
     }
 
     @Test
@@ -42,7 +42,7 @@ public class UserDataCacheImplTest {
         addTestUsers();
         boolean isAdd = userDataCacheImpl.addUser(new User(2L, "Andrzej", "Mikula", "Olsztyn"));
         assertFalse(isAdd);
-        assertEquals(3, userDataCacheImpl.getAllUsers().size());
+        assertEquals(3, userDataCacheImpl.size());
     }
 
     @Test
@@ -51,7 +51,7 @@ public class UserDataCacheImplTest {
         boolean isAdd = userDataCacheImpl.addUser(new User(4L, "Stanislaw", "Kowalski", "Poznan"));
         assertTrue(isAdd);
         assertTrue(userDataCacheImpl.getUser(4L).isPresent());
-        assertEquals(4, userDataCacheImpl.getAllUsers().size());
+        assertEquals(4, userDataCacheImpl.size());
     }
 
     @Test(expected = BadUserDefinitionException.class)

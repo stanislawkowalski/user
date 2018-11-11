@@ -49,6 +49,11 @@ public class UserDataCacheImpl implements UserDataCache {
         return new ArrayList<>(users);
     }
     
+    @Override
+    public int size() {
+    	return users.size();
+    }
+    
     private void checkUserHasAllMandatoryFields(User user) {
         if (user == null || user.getId() == null ||
                 user.getFirstName() == null || user.getLastName() == null) {

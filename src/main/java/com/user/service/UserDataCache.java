@@ -14,4 +14,6 @@ public interface UserDataCache {
     List<User> getUsers(String lastName);
 
     List<User> getAllUsers();
+    
+    int size();
 }
